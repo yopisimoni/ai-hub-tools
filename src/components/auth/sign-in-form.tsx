@@ -8,9 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useToast } from '@/hooks/use-toast';
 
 export function SignInForm() {
   const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,11 +23,32 @@ export function SignInForm() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Sign In Data:', { email, password });
-    setIsLoading(false);
-    router.push('/dashboard');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (error: any) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/user-not-found':
+          case 'auth/wrong-password':
+            errorMessage = 'Invalid email or password.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          default:
+            errorMessage = error.message;
+        }
+      }
+      toast({
+        title: "Sign In Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,6 +66,7 @@ export function SignInForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
+            autoComplete="email"
           />
         </div>
       </div>
@@ -58,10 +84,11 @@ export function SignInForm() {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             required
-            className="pl-10 pr-10" // Added pr-10 for the eye icon
+            className="pl-10 pr-10" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
+            autoComplete="current-password"
           />
           <Button
             type="button"

@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export function SignUpForm() {
   const router = useRouter();
@@ -32,11 +34,38 @@ export function SignUpForm() {
       setIsLoading(false);
       return;
     }
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Sign Up Data:', { email, password });
-    setIsLoading(false);
-    router.push('/dashboard');
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      toast({
+        title: "Success",
+        description: "Account created successfully! Redirecting to dashboard...",
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+       if (error.code) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            errorMessage = 'This email address is already in use.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'Password should be at least 6 characters.';
+            break;
+          default:
+            errorMessage = error.message;
+        }
+      }
+      toast({
+        title: "Sign Up Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -54,6 +83,7 @@ export function SignUpForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
+            autoComplete="email"
           />
         </div>
       </div>
@@ -66,10 +96,11 @@ export function SignUpForm() {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             required
-            className="pl-10 pr-10" // Added pr-10 for the eye icon
+            className="pl-10 pr-10"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
+            autoComplete="new-password"
           />
           <Button
             type="button"
@@ -93,10 +124,11 @@ export function SignUpForm() {
             type={showConfirmPassword ? "text" : "password"}
             placeholder="••••••••"
             required
-            className="pl-10 pr-10" // Added pr-10 for the eye icon
+            className="pl-10 pr-10"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             disabled={isLoading}
+            autoComplete="new-password"
           />
           <Button
             type="button"
