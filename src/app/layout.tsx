@@ -5,13 +5,8 @@ import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-});
-
-const geistMono = GeistMono({
-  variable: '--font-geist-mono',
-});
+const geistSans = Geist; // Correct: Geist (GeistSans) is an object
+const geistMono = GeistMono; // Correct: GeistMono is an object
 
 export const metadata: Metadata = {
   title: 'AI Tools Hub Portal',
@@ -32,3 +27,4 @@ export default function RootLayout({
     </html>
   );
 }
+
