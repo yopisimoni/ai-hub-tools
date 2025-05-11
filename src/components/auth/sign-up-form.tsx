@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, type FormEvent } from 'react';
@@ -6,20 +7,28 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Mail, Lock, Loader2 } from 'lucide-react';
+import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export function SignUpForm() {
   const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     if (password !== confirmPassword) {
-      alert("Passwords don't match!"); // Replace with proper error handling (e.g., toast)
+      toast({
+        title: "Error",
+        description: "Passwords don't match!",
+        variant: "destructive",
+      });
       setIsLoading(false);
       return;
     }
@@ -54,14 +63,25 @@ export function SignUpForm() {
           <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             required
-            className="pl-10"
+            className="pl-10 pr-10" // Added pr-10 for the eye icon
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
           />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute right-0 top-0 h-full px-3 py-2 text-muted-foreground hover:text-foreground"
+            onClick={() => setShowPassword(!showPassword)}
+            disabled={isLoading}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </Button>
         </div>
       </div>
       <div className="space-y-2">
@@ -70,14 +90,25 @@ export function SignUpForm() {
           <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             id="confirm-password"
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             placeholder="••••••••"
             required
-            className="pl-10"
+            className="pl-10 pr-10" // Added pr-10 for the eye icon
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             disabled={isLoading}
           />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute right-0 top-0 h-full px-3 py-2 text-muted-foreground hover:text-foreground"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            disabled={isLoading}
+            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+          >
+            {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </Button>
         </div>
       </div>
       <Button type="submit" className="w-full" disabled={isLoading}>
