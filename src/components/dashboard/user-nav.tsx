@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserCircle, LogOut, Settings, LifeBuoy } from "lucide-react";
+import { UserCircle, LogOut, Settings, LifeBuoy, Star, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -57,6 +58,18 @@ export function UserNav() {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="#">
+              <Star className="mr-2 h-4 w-4" />
+              <span>Favorite Apps</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="#">
+              <MessageSquare className="mr-2 h-4 w-4" />
+              <span>My Comments</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="#">
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </Link>
@@ -77,3 +90,4 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
+
