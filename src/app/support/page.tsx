@@ -2,6 +2,7 @@
 import { DashboardHeader } from '@/components/dashboard/dashboard-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LifeBuoy } from 'lucide-react';
+import { DynamicFooter } from '@/components/common/dynamic-footer';
 
 export default function SupportPage() {
   return (
@@ -9,7 +10,7 @@ export default function SupportPage() {
       <DashboardHeader />
       <main className="flex-1 p-4 sm:p-6 md:p-8">
         <div className="container mx-auto">
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto shadow-lg rounded-lg">
             <CardHeader>
               <div className="flex items-center gap-4">
                 <LifeBuoy className="h-10 w-10 text-primary" />
@@ -25,9 +26,7 @@ export default function SupportPage() {
           </Card>
         </div>
       </main>
-       <footer className="py-6 text-center text-sm text-muted-foreground border-t bg-card">
-         &copy; {new Date().getFullYear()} AI Tools Hub. All rights reserved.
-      </footer>
+      <DynamicFooter />
     </div>
   );
 }

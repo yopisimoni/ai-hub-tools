@@ -1,6 +1,8 @@
+
 import { DashboardHeader } from '@/components/dashboard/dashboard-header';
 import { ToolCard } from '@/components/dashboard/tool-card';
 import { BotMessageSquare, Lightbulb, BarChart3, WandSparkles, Database, Workflow, Rocket } from 'lucide-react';
+import { DynamicFooter } from '@/components/common/dynamic-footer';
 
 const aiTools = [
   {
@@ -87,9 +89,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-      <footer className="py-6 text-center text-sm text-muted-foreground border-t bg-card">
-         &copy; {new Date().getFullYear()} AI Tools Hub. All rights reserved.
-      </footer>
+      <DynamicFooter />
     </div>
   );
 }
