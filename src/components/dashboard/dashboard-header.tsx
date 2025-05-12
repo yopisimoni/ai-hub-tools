@@ -1,8 +1,10 @@
+
 import { Logo } from '@/components/common/logo';
 import { UserNav } from '@/components/dashboard/user-nav';
 import type { FC } from 'react';
 import { SearchInput } from './search-input';
 import { CategoriesDropdownMenu } from './categories-dropdown-menu';
+import { ThemeToggle } from '@/components/common/theme-toggle'; // Import ThemeToggle
 
 export const DashboardHeader: FC = () => {
   return (
@@ -15,7 +17,10 @@ export const DashboardHeader: FC = () => {
           </div>
           <CategoriesDropdownMenu />
         </div>
-        <UserNav />
+        <div className="flex items-center gap-4"> {/* Wrapper for UserNav and ThemeToggle */}
+          <ThemeToggle />
+          <UserNav />
+        </div>
       </div>
     </header>
   );
