@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Rating } from '@/components/dashboard/rating'; // Import Rating
 import { CommentSection } from '@/components/dashboard/comment-section'; // Import CommentSection
 import { SocialShareButtons } from '@/components/dashboard/social-share-buttons'; // Import SocialShareButtons
+import Link from 'next/link'; // Import Link
+import { ExternalLink } from 'lucide-react'; // Import ExternalLink icon
 import { 
   PenTool, 
   ImageIcon, 
@@ -142,17 +144,22 @@ const aiCategories = [
   },
 ];
 
-// Detailed tool listing data with unique IDs
+// Detailed tool listing data with unique IDs, descriptions, and links
 const toolCategories = [
   {
     category: "AI Assistants (Chatbots)",
     icon: <BotMessageSquare className="h-5 w-5 mr-3 text-primary" />,
     tools: [
-      { id: "chatgpt", name: "ChatGPT" },
-      { id: "claude", name: "Claude" },
-      { id: "gemini", name: "Gemini" },
-      { id: "deepseek", name: "DeepSeek" },
-      { id: "grok", name: "Grok" },
+      { id: "chatgpt", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/" },
+      { id: "claude", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude" },
+      { id: "gemini", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/" },
+      { id: "microsoft-copilot", name: "Microsoft Copilot", description: "Integrated with Microsoft 365, assists with drafting emails, summarizing meetings, and more.", link: "https://www.microsoft.com/en-us/microsoft-365/copilot" },
+      { id: "grok", name: "Grok 3 (xAI)", description: "Elon Musk's AI assistant, notable for social media analysis and engaging interactions.", link: "https://x.ai/" },
+      { id: "perplexity-chatbot", name: "Perplexity AI", description: "Specializes in detailed research and summarization of current events.", link: "https://www.perplexity.ai/" },
+      { id: "lechat-mistral", name: "Le Chat (Mistral AI)", description: "Enterprise-focused chatbot integrated with platforms like SharePoint and Google Drive.", link: "https://mistral.ai/" },
+      { id: "personal-ai", name: "Personal AI", description: "Customizable personal assistant designed for individualized tasks and preferences.", link: "https://www.personal.ai/" },
+      { id: "pi-inflection", name: "Pi (Inflection AI)", description: "Friendly AI companion focused on emotional support and casual conversation.", link: "https://pi.ai/" },
+      { id: "jasper-ai", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/" },
     ]
   },
   {
@@ -216,7 +223,7 @@ const toolCategories = [
     category: "Search Engines",
     icon: <Search className="h-5 w-5 mr-3 text-primary" />,
     tools: [
-      { id: "perplexity", name: "Perplexity" },
+      { id: "perplexity", name: "Perplexity" }, // Note: ID conflict resolved for chatbot version
       { id: "chatgpt-search", name: "ChatGPT search" },
     ]
   },
@@ -408,7 +415,19 @@ export default function DashboardPage() {
                   <AccordionContent className="px-6 pb-4 pt-2 bg-background space-y-6">
                     {cat.tools.map((tool) => (
                       <div key={tool.id} id={tool.id} className="p-4 border rounded-md bg-card shadow-sm scroll-mt-20"> {/* Add id and scroll-mt */}
-                        <h3 className="text-lg font-medium text-foreground mb-2">{tool.name}</h3>
+                        <div className="flex items-center justify-between mb-2">
+                           {tool.link ? (
+                              <Link href={tool.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-lg font-medium text-primary hover:underline group">
+                                {tool.name}
+                                <ExternalLink className="ml-1.5 h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                              </Link>
+                            ) : (
+                              <h3 className="text-lg font-medium text-foreground">{tool.name}</h3>
+                            )}
+                        </div>
+                        {tool.description && (
+                           <p className="text-sm text-muted-foreground mb-4">{tool.description}</p>
+                         )}
                         <div className="mb-4">
                            <Rating toolId={tool.id} />
                         </div>

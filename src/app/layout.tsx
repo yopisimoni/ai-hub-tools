@@ -16,14 +16,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      {/* Ensure no whitespace or comments between <html> and <body> */}
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-         <ThemeProvider
+    <>
+      <html lang="en" suppressHydrationWarning>
+        {/* Ensure no whitespace or comments between <html> and <body> */}
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
@@ -31,8 +30,9 @@ export default function RootLayout({
           >
             {children}
             <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
   );
 }
