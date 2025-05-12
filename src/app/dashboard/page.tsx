@@ -163,6 +163,22 @@ const toolCategories = [
     ]
   },
   {
+    category: "Text Generation",
+    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />,
+    tools: [
+      { id: "chatgpt-textgen", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/" },
+      { id: "claude-textgen", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude" },
+      { id: "gemini-textgen", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/" },
+      { id: "jasper-ai-textgen", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/" },
+      { id: "copy-ai", name: "Copy.ai", description: "Designed for users who need simplicity and speed in content creation, ideal for startups and small businesses.", link: "https://www.copy.ai/" },
+      { id: "rytr", name: "Rytr", description: "Affordable AI writing tool providing excellent value for personal projects and small business tasks.", link: "https://rytr.me/" },
+      { id: "contentbot-ai", name: "ContentBot AI", description: "Automates content generation with workflows for various content creators, supporting over 110 languages.", link: "https://contentbot.ai/" },
+      { id: "squibler", name: "Squibler", description: "Powerful for structured long-form content, making it perfect for authors and researchers.", link: "https://www.squibler.io/" },
+      { id: "writesonic", name: "Writesonic", description: "Budget-friendly tool for SEO and marketing professionals, offering versatile content generation.", link: "https://writesonic.com/" },
+      { id: "notion-ai", name: "Notion AI", description: "Integrates AI text generation into Notion workspaces, enhancing productivity with features like summarization and idea brainstorming.", link: "https://www.notion.so/product/ai" }
+    ]
+  },
+  {
     category: "Video Generation and Editing",
     icon: <Film className="h-5 w-5 mr-3 text-primary" />,
     tools: [
@@ -205,9 +221,9 @@ const toolCategories = [
   },
   {
     category: "Writing",
-    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />,
+    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />, // Re-using PenTool, consider a different icon if needed
     tools: [
-      { id: "rytr", name: "Rytr" },
+      { id: "rytr-writing", name: "Rytr" }, // Added suffix to avoid ID clash
       { id: "sudowrite", name: "Sudowrite" },
     ]
   },
