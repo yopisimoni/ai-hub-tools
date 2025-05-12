@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 interface SocialShareButtonsProps {
   toolName: string;
   toolId: string;
+  // Allow passing the specific URL to share
+  shareUrl?: string;
 }
 
 // Placeholder SVG for Pinterest as lucide-react doesn't have it
@@ -19,30 +21,33 @@ const PinterestIcon = () => (
 );
 
 
-export function SocialShareButtons({ toolName, toolId }: SocialShareButtonsProps) {
+export function SocialShareButtons({ toolName, toolId, shareUrl }: SocialShareButtonsProps) {
   const { toast } = useToast();
-  const [currentUrl, setCurrentUrl] = useState('');
+  const [finalShareUrl, setFinalShareUrl] = useState('');
 
   useEffect(() => {
     // Ensure this runs only on the client side after hydration
-    setCurrentUrl(window.location.href.split('#')[0] + `#${toolId}`); // Get base URL + tool fragment
-  }, [toolId]);
+    if (shareUrl) {
+      setFinalShareUrl(shareUrl);
+    } else if (typeof window !== 'undefined') {
+      // Fallback to current window location if shareUrl is not provided
+      setFinalShareUrl(window.location.href.split('#')[0] + `#${toolId}`); // Get base URL + tool fragment
+    }
+  }, [toolId, shareUrl]);
 
 
   const shareText = `Check out this AI tool: ${toolName}!`;
 
   const shareUrls = {
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(shareText)}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
-    // Pinterest share requires an image URL, which we don't have readily available per tool here.
-    // Providing a basic link share, though not ideal for Pinterest.
-    pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(currentUrl)}&description=${encodeURIComponent(shareText)}`
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(finalShareUrl)}&text=${encodeURIComponent(shareText)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalShareUrl)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(finalShareUrl)}`,
+    pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(finalShareUrl)}&description=${encodeURIComponent(shareText)}`
   };
 
   const copyToClipboard = () => {
-    if (!currentUrl) return; // Don't copy if URL isn't set yet
-    navigator.clipboard.writeText(currentUrl)
+    if (!finalShareUrl) return; // Don't copy if URL isn't set yet
+    navigator.clipboard.writeText(finalShareUrl)
       .then(() => {
         toast({ title: "Copied!", description: "Tool link copied to clipboard." });
       })
@@ -53,7 +58,7 @@ export function SocialShareButtons({ toolName, toolId }: SocialShareButtonsProps
   };
 
 
-  if (!currentUrl) {
+  if (!finalShareUrl) {
      // Optionally render a loading state or null while waiting for the URL
     return <div className="h-9"></div>; // Placeholder with same height as button row
   }
@@ -113,3 +118,5 @@ export function SocialShareButtons({ toolName, toolId }: SocialShareButtonsProps
     </div>
   );
 }
+
+    
