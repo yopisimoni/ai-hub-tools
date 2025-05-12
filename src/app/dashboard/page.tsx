@@ -8,371 +8,18 @@ import { CommentSection } from '@/components/dashboard/comment-section'; // Impo
 import { SocialShareButtons } from '@/components/dashboard/social-share-buttons'; // Import SocialShareButtons
 import Link from 'next/link'; // Import Link
 import { ExternalLink } from 'lucide-react'; // Import ExternalLink icon
-import { 
-  PenTool, 
-  ImageIcon, 
-  Code, 
-  BarChart3, 
-  Music, 
-  Video, 
-  Zap, 
-  Search, 
-  Store, 
-  BookOpen, 
-  TerminalSquare,
-  BotMessageSquare,
-  Workflow,
-  Rocket,
-  List,
-  Briefcase,
-  Users,
-  GraduationCap,
-  FileText,
-  Mic,
-  Palette,
-  Film,
-  Type,
-  Sparkles,
-  BrainCircuit,
-  Network,
-  ClipboardList,
-  CalendarDays,
-  Headset,
-  UserCheck,
-  Database,
-  Mail,
-  Presentation
-} from 'lucide-react';
+import { Rocket } from 'lucide-react';
+import { toolCategories } from '@/lib/tool-data'; // Import centralized data
 
-// Existing category overview data
-const aiCategories = [
-  {
-    title: "Text Generation",
-    description: "Tools for creating written content like articles, summaries, and creative text.",
-    icon: <PenTool className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=7",
-    imageHint: "writing text",
-    actionLink: "/categories/text-generation",
-  },
-  {
-    title: "Image Generation",
-    description: "Generate unique images from text descriptions or modify existing ones.",
-    icon: <ImageIcon className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=8",
-    imageHint: "ai art",
-    actionLink: "/categories/image-generation",
-  },
-  {
-    title: "Code Assistance",
-    description: "AI tools to help developers write, debug, and optimize code faster.",
-    icon: <Code className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=9",
-    imageHint: "programming code",
-    actionLink: "/categories/code-assistance",
-  },
-  {
-    title: "Data Analysis",
-    description: "Analyze complex datasets to find insights, trends, and predictions.",
-    icon: <BarChart3 className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=3",
-    imageHint: "data charts",
-    actionLink: "/categories/data-analysis",
-  },
-   {
-    title: "AI Chatbots",
-    description: "Intelligent assistants for customer support, information retrieval, and tasks.",
-    icon: <BotMessageSquare className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=1",
-    imageHint: "chatbot interface",
-    actionLink: "/categories/chatbots",
-  },
-  {
-    title: "Audio & Video Tools",
-    description: "Create, edit, and enhance audio and video content using AI.",
-    icon: <Music className="h-6 w-6" />, // Using Music, could also use Video
-    imageUrl: "https://picsum.photos/400/200?random=10",
-    imageHint: "sound waves",
-    actionLink: "/categories/audio-video",
-  },
-  {
-    title: "Productivity Boosters",
-    description: "Streamline workflows, manage tasks, and automate repetitive actions.",
-    icon: <Zap className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=11",
-    imageHint: "fast process",
-    actionLink: "/categories/productivity",
-  },
-   {
-    title: "Workflow Automation",
-    description: "Connect apps and automate multi-step processes without coding.",
-    icon: <Workflow className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=6", 
-    imageHint: "efficient process",
-    actionLink: "/categories/automation",
-  },
-  {
-    title: "Research & Insights",
-    description: "Tools for gathering information, summarizing research, and market analysis.",
-    icon: <Search className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=12",
-    imageHint: "magnifying glass",
-    actionLink: "/categories/research",
-  },
-  {
-    title: "Marketing & Sales",
-    description: "AI-powered tools for lead generation, content marketing, and sales optimization.",
-    icon: <Store className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=13",
-    imageHint: "shopping cart",
-    actionLink: "/categories/marketing-sales",
-  },
-  {
-    title: "Education & Learning",
-    description: "Personalized learning experiences, tutoring, and educational content creation.",
-    icon: <BookOpen className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=14",
-    imageHint: "open book",
-    actionLink: "/categories/education-learning",
-  },
-  {
-    title: "Developer Tools",
-    description: "Advanced tools for software development, testing, and deployment.",
-    icon: <TerminalSquare className="h-6 w-6" />,
-    imageUrl: "https://picsum.photos/400/200?random=15",
-    imageHint: "computer terminal",
-    actionLink: "/categories/developer-tools",
-  },
-];
-
-// Detailed tool listing data with unique IDs, descriptions, and links
-const toolCategories = [
-  {
-    category: "AI Assistants (Chatbots)",
-    icon: <BotMessageSquare className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "chatgpt", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/" },
-      { id: "claude", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude" },
-      { id: "gemini", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/" },
-      { id: "microsoft-copilot", name: "Microsoft Copilot", description: "Integrated with Microsoft 365, assists with drafting emails, summarizing meetings, and more.", link: "https://www.microsoft.com/en-us/microsoft-365/copilot" },
-      { id: "grok", name: "Grok 3 (xAI)", description: "Elon Musk's AI assistant, notable for social media analysis and engaging interactions.", link: "https://x.ai/" },
-      { id: "perplexity-chatbot", name: "Perplexity AI", description: "Specializes in detailed research and summarization of current events.", link: "https://www.perplexity.ai/" },
-      { id: "lechat-mistral", name: "Le Chat (Mistral AI)", description: "Enterprise-focused chatbot integrated with platforms like SharePoint and Google Drive.", link: "https://mistral.ai/" },
-      { id: "personal-ai", name: "Personal AI", description: "Customizable personal assistant designed for individualized tasks and preferences.", link: "https://www.personal.ai/" },
-      { id: "pi-inflection", name: "Pi (Inflection AI)", description: "Friendly AI companion focused on emotional support and casual conversation.", link: "https://pi.ai/" },
-      { id: "jasper-ai", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/" },
-    ]
-  },
-  {
-    category: "Text Generation Tools",
-    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "chatgpt-textgen", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/" },
-      { id: "claude-textgen", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude" },
-      { id: "gemini-textgen", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/" },
-      { id: "jasper-ai-textgen", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/" },
-      { id: "copy-ai", name: "Copy.ai", description: "Simplicity and speed in content creation, ideal for startups and small businesses.", link: "https://www.copy.ai/" },
-      { id: "rytr", name: "Rytr", description: "Affordable AI writing tool for personal projects and small business tasks.", link: "https://rytr.me/" },
-      { id: "contentbot-ai", name: "ContentBot AI", description: "Automates content generation with workflows for various content creators, supporting over 110 languages.", link: "https://contentbot.ai/" },
-      { id: "squibler", name: "Squibler", description: "Powerful for structured long-form content, making it perfect for authors and researchers.", link: "https://www.squibler.io/" },
-      { id: "writesonic", name: "Writesonic", description: "Budget-friendly tool for SEO and marketing professionals, offering versatile content generation.", link: "https://writesonic.com/" },
-      { id: "notion-ai", name: "Notion AI", description: "Integrates AI text generation into Notion workspaces, enhancing productivity with features like summarization and idea brainstorming.", link: "https://www.notion.so/product/ai" }
-    ]
-  },
-  {
-    category: "Video Generation and Editing",
-    icon: <Film className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "synthesia", name: "Synthesia" },
-      { id: "runway", name: "Runway" },
-      { id: "filmora", name: "Filmora" },
-      { id: "opusclip", name: "OpusClip" },
-    ]
-  },
-  {
-    category: "Image Generation",
-    icon: <ImageIcon className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "gpt4o", name: "GPT-4o" },
-      { id: "midjourney", name: "Midjourney" },
-    ]
-  },
-  {
-    category: "Notetakers and Meeting Assistants",
-    icon: <ClipboardList className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "fathom", name: "Fathom" },
-      { id: "nyota", name: "Nyota" },
-    ]
-  },
-  {
-    category: "Automation",
-    icon: <Workflow className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "n8n", name: "n8n" },
-    ]
-  },
-  {
-    category: "Research/Education",
-    icon: <GraduationCap className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "deep-research", name: "Deep Research" },
-      { id: "notebooklm", name: "NotebookLM" },
-    ]
-  },
-  {
-    category: "Writing",
-    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />, // Re-using PenTool, consider a different icon if needed
-    tools: [
-      { id: "rytr-writing", name: "Rytr" }, // Added suffix to avoid ID clash
-      { id: "sudowrite", name: "Sudowrite" },
-    ]
-  },
-  {
-    category: "Grammar and Writing Improvement",
-    icon: <Type className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "grammarly", name: "Grammarly" },
-      { id: "wordtune", name: "Wordtune" },
-    ]
-  },
-  {
-    category: "Search Engines",
-    icon: <Search className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "perplexity", name: "Perplexity" }, // Note: ID conflict resolved for chatbot version
-      { id: "chatgpt-search", name: "ChatGPT search" },
-    ]
-  },
-  {
-    category: "Social Media Management",
-    icon: <Users className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "vista-social", name: "Vista Social" },
-      { id: "feedhive", name: "FeedHive" },
-    ]
-  },
-  {
-    category: "Graphic Design",
-    icon: <Palette className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "canva-magic-studio", name: "Canva Magic Studio" },
-      { id: "looka", name: "Looka" },
-    ]
-  },
-  {
-    category: "App Builders & Coding",
-    icon: <Code className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "bubble", name: "Bubble" },
-      { id: "bolt", name: "Bolt" },
-      { id: "lovable", name: "Lovable" },
-      { id: "cursor", name: "Cursor" },
-      { id: "v0", name: "v0" },
-    ]
-  },
-  {
-    category: "Project Management",
-    icon: <Briefcase className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "asana", name: "Asana" },
-      { id: "clickup", name: "ClickUp" },
-    ]
-  },
-  {
-    category: "Scheduling",
-    icon: <CalendarDays className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "reclaim", name: "Reclaim" },
-      { id: "clockwise", name: "Clockwise" },
-    ]
-  },
-  {
-    category: "Customer Service",
-    icon: <Headset className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "tidio-ai", name: "Tidio AI" },
-      { id: "hiver", name: "Hiver" },
-    ]
-  },
-  {
-    category: "Recruitment",
-    icon: <UserCheck className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "textio", name: "Textio" },
-      { id: "cvviz", name: "CVViZ" },
-    ]
-  },
-  {
-    category: "Knowledge Management",
-    icon: <Database className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "notion-ai-qa", name: "Notion AI Q&A" },
-      { id: "guru", name: "Guru" },
-    ]
-  },
-  {
-    category: "Email",
-    icon: <Mail className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "hubspot-email-writer", name: "Hubspot Email Writer" },
-      { id: "sanebox", name: "SaneBox" },
-      { id: "shortwave", name: "Shortwave" },
-    ]
-  },
-  {
-    category: "Presentations",
-    icon: <Presentation className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "gamma", name: "Gamma" },
-      { id: "presentations-ai", name: "Presentations.ai" },
-    ]
-  },
-  {
-    category: "Resume Builders",
-    icon: <FileText className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "teal", name: "Teal" },
-      { id: "kickresume", name: "Kickresume" },
-    ]
-  },
-  {
-    category: "Voice Generation",
-    icon: <Mic className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "elevenlabs", name: "ElevenLabs" },
-      { id: "murf", name: "Murf" },
-    ]
-  },
-  {
-    category: "Music Generation",
-    icon: <Music className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "suno", name: "Suno" },
-      { id: "udio", name: "Udio" },
-    ]
-  },
-  {
-    category: "Marketing",
-    icon: <Store className="h-5 w-5 mr-3 text-primary" />,
-    tools: [
-      { id: "adcreative", name: "AdCreative" },
-    ]
-  },
-  {
-    category: "Sales",
-    icon: <Sparkles className="h-5 w-5 mr-3 text-primary" />, // Using Sparkles as a generic icon
-    tools: [
-      { id: "clay", name: "Clay" },
-    ]
-  },
-  {
-    category: "Legal",
-    icon: <Briefcase className="h-5 w-5 mr-3 text-primary" />, // Reusing Briefcase
-    tools: [
-      { id: "harvey", name: "Harvey" },
-    ]
-  }
-];
+// Use the imported toolCategories directly for the category overview section
+const aiCategoriesOverview = toolCategories.map(cat => ({
+  title: cat.name,
+  description: cat.description,
+  icon: cat.icon, // Assuming the icon in toolCategories is suitable for the overview card
+  imageUrl: cat.imageUrl,
+  imageHint: cat.imageHint,
+  actionLink: `/categories/${cat.slug}`, // Use the slug for the link
+}));
 
 
 export default function DashboardPage() {
@@ -386,9 +33,9 @@ export default function DashboardPage() {
           Discover the best AI tools organized by category. Click on a category to see the tools.
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {aiCategories.map((category) => (
+        {aiCategoriesOverview.map((category) => (
           <ToolCard
             key={category.title}
             title={category.title}
@@ -396,7 +43,7 @@ export default function DashboardPage() {
             icon={category.icon}
             imageUrl={category.imageUrl}
             imageHint={category.imageHint}
-            actionLink={category.actionLink} 
+            actionLink={category.actionLink}
           />
         ))}
       </div>
@@ -420,13 +67,13 @@ export default function DashboardPage() {
           <CardContent className="p-0"> {/* Remove default padding */}
             <Accordion type="single" collapsible className="w-full">
               {toolCategories.map((cat, index) => (
-                <AccordionItem 
-                  value={cat.category} 
-                  key={cat.category} 
+                <AccordionItem
+                  value={cat.slug} // Use slug as value
+                  key={cat.slug}
                   className={index === toolCategories.length - 1 ? "border-b-0" : ""} /* Remove border from last item */
                 >
                   <AccordionTrigger className="text-lg font-semibold hover:no-underline px-6 py-4 flex items-center bg-card hover:bg-muted/50 transition-colors">
-                     {cat.icon} {cat.category}
+                     {cat.icon} {cat.name} {/* Display category name */}
                   </AccordionTrigger>
                   <AccordionContent className="px-6 pb-4 pt-2 bg-background space-y-6">
                     {cat.tools.map((tool) => (
@@ -453,6 +100,9 @@ export default function DashboardPage() {
                         </div>
                       </div>
                     ))}
+                     {cat.tools.length === 0 && (
+                        <p className="text-sm text-muted-foreground text-center py-4">No tools listed in this category yet.</p>
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -464,4 +114,3 @@ export default function DashboardPage() {
     </DashboardLayout>
   );
 }
-
