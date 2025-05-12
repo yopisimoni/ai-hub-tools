@@ -9,7 +9,7 @@ import { SocialShareButtons } from '@/components/dashboard/social-share-buttons'
 import Link from 'next/link'; // Import Link
 import { ExternalLink } from 'lucide-react'; // Import ExternalLink icon
 import { Rocket } from 'lucide-react';
-import { toolCategories } from '@/lib/tool-data'; // Import centralized data
+import { toolCategories } from '@/lib/tool-data.tsx'; // Import centralized data
 
 // Use the imported toolCategories directly for the category overview section
 const aiCategoriesOverview = toolCategories.map(cat => ({
@@ -114,3 +114,4 @@ export default function DashboardPage() {
     </DashboardLayout>
   );
 }
+

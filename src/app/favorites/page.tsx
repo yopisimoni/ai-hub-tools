@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { Star, MessageSquare, ArrowRight } from 'lucide-react';
-import { getToolById, type AiTool } from '@/lib/tool-data'; // Import function to get tool details
+import { getToolById, type AiTool } from '@/lib/tool-data.tsx'; // Import function to get tool details
 import { Rating } from '@/components/dashboard/rating';
 import { SocialShareButtons } from '@/components/dashboard/social-share-buttons';
 import Link from 'next/link';

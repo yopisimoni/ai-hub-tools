@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Star, MessageSquare, ArrowRight } from 'lucide-react';
-import { getCategoryDetailsBySlug, getAIToolsByCategory, type AiTool } from '@/lib/tool-data'; // Import centralized data functions
+import { getCategoryDetailsBySlug, getAIToolsByCategory, type AiTool } from '@/lib/tool-data.tsx'; // Import centralized data functions
 
 // Component to handle favorite toggle logic
 const FavoriteButton = ({ toolId }: { toolId: string }) => {
@@ -176,4 +176,5 @@ export default function CategoryPage() {
   );
 }
 
-// Removed getAIToolsByCategory and categoryDetails from here, now importing from tool-data.ts
+// Removed getAIToolsByCategory and categoryDetails from here, now importing from tool-data.tsx
+

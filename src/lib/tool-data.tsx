@@ -1,4 +1,5 @@
-// src/lib/tool-data.ts
+
+// src/lib/tool-data.tsx
 import {
   PenTool,
   ImageIcon,
