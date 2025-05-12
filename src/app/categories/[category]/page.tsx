@@ -1,3 +1,4 @@
+
 "use client"; // Required for useState, useEffect, onClick handlers, useParams
 
 import { useState, useEffect } from 'react';
@@ -149,6 +150,12 @@ export default function CategoryPage() {
                   <SocialShareButtons toolName={tool.name} toolId={tool.id} />
                 </CardContent>
                 <CardFooter className="flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-4">
+                    {/* Link to comment section on dashboard */}
+                    <Button asChild variant="outline" className="w-full sm:w-auto">
+                        <Link href={`/dashboard#${tool.id}`}>
+                            <MessageSquare className="mr-2 h-4 w-4" /> Comments
+                        </Link>
+                    </Button>
                    {tool.link ? (
                      <Button asChild variant="default" className="w-full sm:w-auto flex-1">
                        <Link href={tool.link} target="_blank" rel="noopener noreferrer">
@@ -160,12 +167,6 @@ export default function CategoryPage() {
                        Link Unavailable
                      </Button>
                    )}
-                    {/* Link to comment section on dashboard */}
-                    <Button asChild variant="outline" className="w-full sm:w-auto">
-                        <Link href={`/dashboard#${tool.id}`}>
-                            <MessageSquare className="mr-2 h-4 w-4" /> Comments
-                        </Link>
-                    </Button>
                 </CardFooter>
               </Card>
             ))
