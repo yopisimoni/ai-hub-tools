@@ -21,7 +21,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* Ensure no whitespace or comments here */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
          <ThemeProvider
             attribute="class"
