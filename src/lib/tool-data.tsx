@@ -229,13 +229,90 @@ export const toolCategories: AiToolCategory[] = [
     description: "Tools for low-code/no-code development and AI-assisted coding.",
     imageUrl: "https://picsum.photos/400/200?random=15", // Reused
     imageHint: "coding screen",
-    tools: [
-      { id: "bubble", name: "Bubble", description: "No-code platform for building web applications.", link: "https://bubble.io/", categorySlug: "developer-tools"},
-      // { id: "bolt", name: "Bolt", description: "(Need more context - multiple 'Bolt' tools exist)", link: "#", categorySlug: "developer-tools" }, // Placeholder
-      // { id: "lovable", name: "Lovable", description: "(Need more context - specify which Lovable)", link: "#", categorySlug: "developer-tools"}, // Placeholder
-      { id: "cursor", name: "Cursor", description: "AI-first code editor designed for pair-programming with AI.", link: "https://cursor.sh/", categorySlug: "developer-tools"},
-      { id: "v0", name: "v0 (Vercel)", description: "Vercel's generative UI tool for creating frontend code.", link: "https://v0.dev/", categorySlug: "developer-tools"},
-      { id: "github-copilot", name: "GitHub Copilot", description: "AI pair programmer that suggests code and entire functions.", link: "https://github.com/features/copilot", categorySlug: "developer-tools"},
+    tools: [{
+  id: "github-copilot",
+  name: "GitHub Copilot",
+  description: "AI pair programmer powered by OpenAI's Codex, offering real-time code suggestions within IDEs.",
+  link: "https://github.com/features/copilot",
+  categorySlug: "developer-tools"
+},
+{
+  id: "amazon-codewhisperer",
+  name: "Amazon CodeWhisperer",
+  description: "AI coding companion integrated with AWS services, providing code recommendations and security scans.",
+  link: "https://aws.amazon.com/codewhisperer/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "tabnine",
+  name: "Tabnine",
+  description: "AI code completion tool supporting multiple languages and IDEs, with options for local and cloud-based models.",
+  link: "https://www.tabnine.com/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "cursor",
+  name: "Cursor",
+  description: "AI-powered code editor that integrates with OpenAI models, enhancing code generation and debugging.",
+  link: "https://www.cursor.so/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "claude-code",
+  name: "Claude 3.7 (Anthropic)",
+  description: "Advanced AI assistant known for thoughtful, human-like conversations and code generation capabilities.",
+  link: "https://www.anthropic.com/index/claude",
+  categorySlug: "developer-tools"
+},
+{
+  id: "gpt41-code",
+  name: "GPT-4.1 (OpenAI)",
+  description: "Latest OpenAI model excelling in coding tasks, offering faster and more accurate code generation.",
+  link: "https://openai.com/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "codeium",
+  name: "Codeium",
+  description: "Free AI code completion tool supporting over 70 languages, designed for speed and efficiency.",
+  link: "https://codeium.com/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "replit-ai",
+  name: "Replit AI",
+  description: "Integrated AI assistant within Replit's online IDE, aiding in code generation and debugging.",
+  link: "https://replit.com/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "codiumai",
+  name: "CodiumAI",
+  description: "AI tool focused on generating meaningful test cases and improving code integrity.",
+  link: "https://www.codium.ai/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "askcodi",
+  name: "AskCodi",
+  description: "AI assistant designed for developers, offering code generation, explanations, and documentation.",
+  link: "https://www.askcodi.com/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "continue",
+  name: "Continue",
+  description: "AI coding assistant that integrates with VS Code, providing in-line code suggestions and completions.",
+  link: "https://continue.dev/",
+  categorySlug: "developer-tools"
+},
+{
+  id: "microsoft-intellicode",
+  name: "Microsoft IntelliCode",
+  description: "AI-assisted development tool within Visual Studio, offering intelligent code suggestions based on best practices.",
+  link: "https://visualstudio.microsoft.com/services/intellicode/",
+  categorySlug: "developer-tools"
+}
     ]
   },
   {

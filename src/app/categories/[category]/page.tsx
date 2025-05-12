@@ -77,7 +77,8 @@ export default function CategoryPage() {
   const categorySlug = params.category as string;
   const [categoryInfo, setCategoryInfo] = useState<ReturnType<typeof getCategoryDetailsBySlug>>(undefined);
   const [aiTools, setAiTools] = useState<AiTool[]>([]);
-
+  const [pricingFilter, setPricingFilter] = useState<'all' | 'free' | 'paid' | 'freemium'>('all');
+  
   useEffect(() => {
     if (categorySlug) {
       const details = getCategoryDetailsBySlug(categorySlug);
@@ -111,6 +112,19 @@ export default function CategoryPage() {
      );
   }
 
+  // Filter tools based on selected pricing filter
+  const filteredTools = aiTools.filter(tool => {
+    if (pricingFilter === 'all') {
+      return true;
+    }
+    // Ensure pricing property exists before comparing, exclude if missing for filtered views
+    if (!tool.pricing) {
+      return false;
+    }
+    return tool.pricing.toLowerCase() === pricingFilter.toLowerCase();
+  });
+
+
 
   return (
     <DashboardLayout>
@@ -130,9 +144,31 @@ export default function CategoryPage() {
           </CardHeader>
         </Card>
 
+        {/* Pricing Filter Buttons */}
+        <div className="flex justify-center gap-4 mb-8">
+          <Button
+            variant={pricingFilter === 'all' ? 'default' : 'outline'}
+            onClick={() => setPricingFilter('all')}
+          >
+            All
+          </Button>
+          <Button
+            variant={pricingFilter === 'free' ? 'default' : 'outline'}
+            onClick={() => setPricingFilter('free')}
+          >
+            Free
+          </Button>
+          <Button
+            variant={pricingFilter === 'paid' ? 'default' : 'outline'}
+            onClick={() => setPricingFilter('paid')}
+          >
+            Paid/Freemium
+          </Button>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {aiTools.length > 0 ? (
-            aiTools.map((tool) => (
+          {filteredTools.length > 0 ? (
+            filteredTools.map((tool) => (
               <Card key={tool.id} className="flex flex-col h-full shadow-md hover:shadow-lg transition-shadow rounded-lg bg-card">
                 <CardHeader>
                    <div className="flex justify-between items-start">
