@@ -1,8 +1,7 @@
 
-import { DashboardHeader } from '@/components/dashboard/dashboard-header';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { ToolCard } from '@/components/dashboard/tool-card';
 import { BotMessageSquare, Lightbulb, BarChart3, WandSparkles, Database, Workflow, Rocket } from 'lucide-react';
-import { DynamicFooter } from '@/components/common/dynamic-footer';
 
 const aiTools = [
   {
@@ -51,45 +50,39 @@ const aiTools = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-muted/40">
-      <DashboardHeader />
-      <main className="flex-1 p-4 sm:p-6 md:p-8">
-        <div className="container mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Welcome to AI Tools Hub!
-            </h1>
-            <p className="text-muted-foreground">
-              Explore our suite of intelligent tools designed to empower your work.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            {aiTools.map((tool) => (
-              <ToolCard
-                key={tool.title}
-                title={tool.title}
-                description={tool.description}
-                icon={tool.icon}
-                imageUrl={tool.imageUrl}
-                imageHint={tool.imageHint}
-                actionLink="#"
-              />
-            ))}
-          </div>
+    <DashboardLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          Welcome to AI Tools Hub!
+        </h1>
+        <p className="text-muted-foreground">
+          Explore our suite of intelligent tools designed to empower your work.
+        </p>
+      </div>
+      
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+        {aiTools.map((tool) => (
+          <ToolCard
+            key={tool.title}
+            title={tool.title}
+            description={tool.description}
+            icon={tool.icon}
+            imageUrl={tool.imageUrl}
+            imageHint={tool.imageHint}
+            actionLink="#"
+          />
+        ))}
+      </div>
 
-          <div className="mt-12 rounded-lg bg-card p-8 text-center shadow-lg">
-            <Rocket className="mx-auto mb-4 h-12 w-12 text-primary" />
-            <h2 className="mb-2 text-2xl font-semibold text-foreground">
-              Ready to Explore More?
-            </h2>
-            <p className="mb-6 text-muted-foreground">
-              We are constantly adding new tools and features. Stay tuned!
-            </p>
-          </div>
-        </div>
-      </main>
-      <DynamicFooter />
-    </div>
+      <div className="mt-12 rounded-lg bg-card p-8 text-center shadow-lg">
+        <Rocket className="mx-auto mb-4 h-12 w-12 text-primary" />
+        <h2 className="mb-2 text-2xl font-semibold text-foreground">
+          Ready to Explore More?
+        </h2>
+        <p className="mb-6 text-muted-foreground">
+          We are constantly adding new tools and features. Stay tuned!
+        </p>
+      </div>
+    </DashboardLayout>
   );
 }
