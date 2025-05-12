@@ -1,5 +1,7 @@
+
 import type { FC, ReactNode } from 'react';
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -33,17 +35,22 @@ export const ToolCard: FC<ToolCardProps> = ({ title, description, icon, imageUrl
         </span>
         <div>
           <CardTitle className="text-xl font-semibold">{title}</CardTitle>
-          {!imageUrl && <CardDescription className="mt-1 text-sm">{description.substring(0, 70) + "..."}</CardDescription>}
+          {/* Show shortened description only if NO image exists */}
+          {!imageUrl && <CardDescription className="mt-1 text-sm line-clamp-2">{description}</CardDescription>}
         </div>
       </CardHeader>
-      {imageUrl && <CardContent className="flex-grow pt-0">
-        <CardDescription className="text-sm">{description}</CardDescription>
-      </CardContent>}
-      <CardFooter className="mt-auto pt-0 pb-6">
+      {/* Show full description only if image exists */}
+      {imageUrl && 
+        <CardContent className="flex-grow pt-0">
+          <CardDescription className="text-sm line-clamp-3">{description}</CardDescription>
+        </CardContent>
+      }
+      <CardFooter className="mt-auto pt-4 pb-6"> 
         <Button asChild variant="default" className="w-full">
-          <a href={actionLink}>
-            Launch Tool <ArrowRight className="ml-2 h-4 w-4" />
-          </a>
+          {/* Use Link component for internal navigation */}
+          <Link href={actionLink}> 
+            Explore Category <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </Button>
       </CardFooter>
     </Card>
