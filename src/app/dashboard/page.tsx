@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Card, CardContent } from '@/components/ui/card';
 import { Rating } from '@/components/dashboard/rating'; // Import Rating
 import { CommentSection } from '@/components/dashboard/comment-section'; // Import CommentSection
+import { SocialShareButtons } from '@/components/dashboard/social-share-buttons'; // Import SocialShareButtons
 import { 
   PenTool, 
   ImageIcon, 
@@ -406,12 +407,15 @@ export default function DashboardPage() {
                   </AccordionTrigger>
                   <AccordionContent className="px-6 pb-4 pt-2 bg-background space-y-6">
                     {cat.tools.map((tool) => (
-                      <div key={tool.id} className="p-4 border rounded-md bg-card shadow-sm">
+                      <div key={tool.id} id={tool.id} className="p-4 border rounded-md bg-card shadow-sm scroll-mt-20"> {/* Add id and scroll-mt */}
                         <h3 className="text-lg font-medium text-foreground mb-2">{tool.name}</h3>
                         <div className="mb-4">
                            <Rating toolId={tool.id} />
                         </div>
-                        <CommentSection toolId={tool.id} />
+                        <SocialShareButtons toolName={tool.name} toolId={tool.id} /> {/* Add SocialShareButtons */}
+                        <div className="mt-6"> {/* Add margin top for spacing */}
+                           <CommentSection toolId={tool.id} />
+                        </div>
                       </div>
                     ))}
                   </AccordionContent>
