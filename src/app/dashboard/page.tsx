@@ -3,6 +3,8 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { ToolCard } from '@/components/dashboard/tool-card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent } from '@/components/ui/card';
+import { Rating } from '@/components/dashboard/rating'; // Import Rating
+import { CommentSection } from '@/components/dashboard/comment-section'; // Import CommentSection
 import { 
   PenTool, 
   ImageIcon, 
@@ -139,132 +141,212 @@ const aiCategories = [
   },
 ];
 
-// Detailed tool listing data
+// Detailed tool listing data with unique IDs
 const toolCategories = [
   {
     category: "AI Assistants (Chatbots)",
     icon: <BotMessageSquare className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["ChatGPT", "Claude", "Gemini", "DeepSeek", "Grok"]
+    tools: [
+      { id: "chatgpt", name: "ChatGPT" },
+      { id: "claude", name: "Claude" },
+      { id: "gemini", name: "Gemini" },
+      { id: "deepseek", name: "DeepSeek" },
+      { id: "grok", name: "Grok" },
+    ]
   },
   {
     category: "Video Generation and Editing",
-     icon: <Film className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Synthesia", "Runway", "Filmora", "OpusClip"]
+    icon: <Film className="h-5 w-5 mr-3 text-primary" />,
+    tools: [
+      { id: "synthesia", name: "Synthesia" },
+      { id: "runway", name: "Runway" },
+      { id: "filmora", name: "Filmora" },
+      { id: "opusclip", name: "OpusClip" },
+    ]
   },
   {
     category: "Image Generation",
     icon: <ImageIcon className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["GPT-4o", "Midjourney"]
+    tools: [
+      { id: "gpt4o", name: "GPT-4o" },
+      { id: "midjourney", name: "Midjourney" },
+    ]
   },
   {
     category: "Notetakers and Meeting Assistants",
     icon: <ClipboardList className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Fathom", "Nyota"]
+    tools: [
+      { id: "fathom", name: "Fathom" },
+      { id: "nyota", name: "Nyota" },
+    ]
   },
   {
     category: "Automation",
     icon: <Workflow className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["n8n"]
+    tools: [
+      { id: "n8n", name: "n8n" },
+    ]
   },
   {
     category: "Research/Education",
-     icon: <GraduationCap className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Deep Research", "NotebookLM"]
+    icon: <GraduationCap className="h-5 w-5 mr-3 text-primary" />,
+    tools: [
+      { id: "deep-research", name: "Deep Research" },
+      { id: "notebooklm", name: "NotebookLM" },
+    ]
   },
   {
     category: "Writing",
-     icon: <PenTool className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Rytr", "Sudowrite"]
+    icon: <PenTool className="h-5 w-5 mr-3 text-primary" />,
+    tools: [
+      { id: "rytr", name: "Rytr" },
+      { id: "sudowrite", name: "Sudowrite" },
+    ]
   },
   {
     category: "Grammar and Writing Improvement",
     icon: <Type className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Grammarly", "Wordtune"]
+    tools: [
+      { id: "grammarly", name: "Grammarly" },
+      { id: "wordtune", name: "Wordtune" },
+    ]
   },
   {
     category: "Search Engines",
     icon: <Search className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Perplexity", "ChatGPT search"]
+    tools: [
+      { id: "perplexity", name: "Perplexity" },
+      { id: "chatgpt-search", name: "ChatGPT search" },
+    ]
   },
   {
     category: "Social Media Management",
-     icon: <Users className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Vista Social", "FeedHive"]
+    icon: <Users className="h-5 w-5 mr-3 text-primary" />,
+    tools: [
+      { id: "vista-social", name: "Vista Social" },
+      { id: "feedhive", name: "FeedHive" },
+    ]
   },
   {
     category: "Graphic Design",
     icon: <Palette className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Canva Magic Studio", "Looka"]
+    tools: [
+      { id: "canva-magic-studio", name: "Canva Magic Studio" },
+      { id: "looka", name: "Looka" },
+    ]
   },
   {
     category: "App Builders & Coding",
     icon: <Code className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Bubble", "Bolt", "Lovable", "Cursor", "v0"]
+    tools: [
+      { id: "bubble", name: "Bubble" },
+      { id: "bolt", name: "Bolt" },
+      { id: "lovable", name: "Lovable" },
+      { id: "cursor", name: "Cursor" },
+      { id: "v0", name: "v0" },
+    ]
   },
   {
     category: "Project Management",
     icon: <Briefcase className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Asana", "ClickUp"]
+    tools: [
+      { id: "asana", name: "Asana" },
+      { id: "clickup", name: "ClickUp" },
+    ]
   },
   {
     category: "Scheduling",
     icon: <CalendarDays className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Reclaim", "Clockwise"]
+    tools: [
+      { id: "reclaim", name: "Reclaim" },
+      { id: "clockwise", name: "Clockwise" },
+    ]
   },
   {
     category: "Customer Service",
     icon: <Headset className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Tidio AI", "Hiver"]
+    tools: [
+      { id: "tidio-ai", name: "Tidio AI" },
+      { id: "hiver", name: "Hiver" },
+    ]
   },
   {
     category: "Recruitment",
     icon: <UserCheck className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Textio", "CVViZ"]
+    tools: [
+      { id: "textio", name: "Textio" },
+      { id: "cvviz", name: "CVViZ" },
+    ]
   },
   {
     category: "Knowledge Management",
     icon: <Database className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Notion AI Q&A", "Guru"]
+    tools: [
+      { id: "notion-ai-qa", name: "Notion AI Q&A" },
+      { id: "guru", name: "Guru" },
+    ]
   },
   {
     category: "Email",
     icon: <Mail className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Hubspot Email Writer", "SaneBox", "Shortwave"]
+    tools: [
+      { id: "hubspot-email-writer", name: "Hubspot Email Writer" },
+      { id: "sanebox", name: "SaneBox" },
+      { id: "shortwave", name: "Shortwave" },
+    ]
   },
   {
     category: "Presentations",
     icon: <Presentation className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Gamma", "Presentations.ai"]
+    tools: [
+      { id: "gamma", name: "Gamma" },
+      { id: "presentations-ai", name: "Presentations.ai" },
+    ]
   },
   {
     category: "Resume Builders",
     icon: <FileText className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Teal", "Kickresume"]
+    tools: [
+      { id: "teal", name: "Teal" },
+      { id: "kickresume", name: "Kickresume" },
+    ]
   },
   {
     category: "Voice Generation",
     icon: <Mic className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["ElevenLabs", "Murf"]
+    tools: [
+      { id: "elevenlabs", name: "ElevenLabs" },
+      { id: "murf", name: "Murf" },
+    ]
   },
   {
     category: "Music Generation",
     icon: <Music className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["Suno", "Udio"]
+    tools: [
+      { id: "suno", name: "Suno" },
+      { id: "udio", name: "Udio" },
+    ]
   },
   {
     category: "Marketing",
     icon: <Store className="h-5 w-5 mr-3 text-primary" />,
-    tools: ["AdCreative"]
+    tools: [
+      { id: "adcreative", name: "AdCreative" },
+    ]
   },
   {
     category: "Sales",
     icon: <Sparkles className="h-5 w-5 mr-3 text-primary" />, // Using Sparkles as a generic icon
-    tools: ["Clay"]
+    tools: [
+      { id: "clay", name: "Clay" },
+    ]
   },
   {
     category: "Legal",
-     icon: <Briefcase className="h-5 w-5 mr-3 text-primary" />, // Reusing Briefcase
-    tools: ["Harvey"]
+    icon: <Briefcase className="h-5 w-5 mr-3 text-primary" />, // Reusing Briefcase
+    tools: [
+      { id: "harvey", name: "Harvey" },
+    ]
   }
 ];
 
@@ -305,7 +387,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* New detailed tool listing section */}
+      {/* Detailed tool listing section with Rating and Comments */}
       <div className="mt-12">
         <h2 className="text-2xl font-bold tracking-tight text-foreground mb-6">
           The Best AI Tools by Category
@@ -322,12 +404,16 @@ export default function DashboardPage() {
                   <AccordionTrigger className="text-lg font-semibold hover:no-underline px-6 py-4 flex items-center bg-card hover:bg-muted/50 transition-colors">
                      {cat.icon} {cat.category}
                   </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-4 pt-2 bg-background">
-                    <ul className="list-disc pl-8 space-y-2 text-muted-foreground marker:text-primary">
-                      {cat.tools.map((tool) => (
-                        <li key={tool} className="text-base">{tool}</li>
-                      ))}
-                    </ul>
+                  <AccordionContent className="px-6 pb-4 pt-2 bg-background space-y-6">
+                    {cat.tools.map((tool) => (
+                      <div key={tool.id} className="p-4 border rounded-md bg-card shadow-sm">
+                        <h3 className="text-lg font-medium text-foreground mb-2">{tool.name}</h3>
+                        <div className="mb-4">
+                           <Rating toolId={tool.id} />
+                        </div>
+                        <CommentSection toolId={tool.id} />
+                      </div>
+                    ))}
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -339,3 +425,4 @@ export default function DashboardPage() {
     </DashboardLayout>
   );
 }
+
