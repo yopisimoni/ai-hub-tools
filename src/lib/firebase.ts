@@ -1,15 +1,16 @@
 // src/lib/firebase.ts
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore'; // Import getFirestore
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBc332FpBGBMqrYF2ckseXLJK0thqYfLJk",
-  authDomain: "authflow-5fd8d.firebaseapp.com",
-  projectId: "authflow-5fd8d",
-  storageBucket: "authflow-5fd8d.firebasestorage.app",
-  messagingSenderId: "153017336272",
-  appId: "1:153017336272:web:f2ba9139cfd7be1081f9d5",
-  measurementId: "G-S5T8NKXRCN"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -21,3 +22,4 @@ if (!getApps().length) {
 }
 
 export const auth = getAuth(app);
+export const db = getFirestore(app); // Export Firestore instance
