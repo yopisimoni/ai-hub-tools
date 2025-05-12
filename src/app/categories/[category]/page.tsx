@@ -1,12 +1,11 @@
-"use client";
 
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PenTool, ImageIcon, Code, BarChart3, Music, Video, Zap, Search, Store, BookOpen, TerminalSquare, BotMessageSquare, Workflow, Rocket, List, Briefcase, Users, GraduationCap, FileText, Mic, Palette, Film, Type, Sparkles, BrainCircuit, Network, ClipboardList, CalendarDays, Headset, UserCheck, Database, Mail, Presentation, ArrowRight } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'; // Added CardFooter
+import { PenTool, ImageIcon, Code, BarChart3, Music, Video, Zap, Search, Store, BookOpen, TerminalSquare, BotMessageSquare, Workflow, Rocket, List, Briefcase, Users, GraduationCap, FileText, Mic, Palette, Film, Type, Sparkles, BrainCircuit, Network, ClipboardList, CalendarDays, Headset, UserCheck, Database, Mail, Presentation, ArrowRight } from 'lucide-react'; // Added ArrowRight
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'; // Added Button
 
 // Map category slugs to display names and icons
 const categoryDetails: { [key: string]: { name: string; icon: React.ReactNode; description: string } } = {
