@@ -1,9 +1,7 @@
+"use client"; // Required for useState, useEffect, onClick handlers, useParams
 
-"use client"; // Required for useState and onClick handlers
-
-import { useState } from 'react';
-import type { Metadata } from 'next';
-import { notFound, usePathname } from 'next/navigation'; // Use usePathname for generating share links
+import { useState, useEffect } from 'react';
+import { notFound, usePathname, useParams } from 'next/navigation'; // Import useParams
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Rating } from '@/components/dashboard/rating'; // Import Rating
@@ -32,9 +30,7 @@ const categoryDetails: { [key: string]: { name: string; icon: React.ReactNode; d
 };
 
 interface CategoryPageProps {
-  params: {
-    category: string;
-  };
+  // params is no longer needed directly in the props for client component
 }
 
 // Dummy function to simulate fetching AI tools based on category slug
@@ -107,8 +103,9 @@ const FavoriteButton = ({ toolId }: { toolId: string }) => {
   );
 };
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const categorySlug = params.category;
+export default function CategoryPage() {
+  const params = useParams(); // Use the hook
+  const categorySlug = params.category as string; // Extract slug, assert as string
   const categoryInfo = categoryDetails[categorySlug];
 
   // If category is not found in our details map, show 404
@@ -180,5 +177,3 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     </DashboardLayout>
   );
 }
-
-    
