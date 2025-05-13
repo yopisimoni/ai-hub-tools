@@ -44,6 +44,7 @@ export interface AiTool {
   link?: string;
   categorySlug: string; // Added category slug for filtering/lookup
   pricing?: 'free' | 'paid' | 'freemium'; // Added pricing property
+  pricingDetails?: string; // To store the original pricing string if needed
 }
 
 export interface AiToolCategory {
@@ -55,6 +56,31 @@ export interface AiToolCategory {
   imageUrl?: string; // Keep image URL for dashboard display if needed
   imageHint?: string; // Keep image hint for dashboard display if needed
 }
+
+// Helper function to convert name to a URL-friendly slug ID
+const generateToolId = (name: string): string => {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+};
+
+// Helper function to determine pricing category
+const determinePricingCategory = (pricingString: string): 'free' | 'paid' | 'freemium' => {
+  const lowerPricingString = pricingString.toLowerCase();
+  const hasFree = lowerPricingString.includes('free') && !lowerPricingString.includes('free trial');
+  const hasPaid = lowerPricingString.includes('paid') || lowerPricingString.includes('$') || lowerPricingString.includes('lifetime');
+  const hasTrial = lowerPricingString.includes('free trial');
+
+  if (hasFree && hasPaid) {
+    return 'freemium';
+  }
+  if (hasFree) {
+    return 'free';
+  }
+  if (hasPaid || hasTrial) { // Consider "Free Trial" as leading to a paid service
+    return 'paid';
+  }
+  return 'paid'; // Default to paid if unclear, or could be 'freemium' if a general assumption
+};
+
 
 export const toolCategories: AiToolCategory[] = [
   {
@@ -127,16 +153,58 @@ export const toolCategories: AiToolCategory[] = [
     imageUrl: "https://picsum.photos/400/200?random=7",
     imageHint: "writing text",
     tools: [
-      { id: "chatgpt-textgen", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "claude-textgen", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "gemini-textgen", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "jasper-ai-textgen", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/", categorySlug: "text-generation", pricing: "paid" },
-      { id: "copy-ai", name: "Copy.ai", description: "Simplicity and speed in content creation, ideal for startups and small businesses.", link: "https://www.copy.ai/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "rytr", name: "Rytr", description: "Affordable AI writing tool for personal projects and small business tasks.", link: "https://rytr.me/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "contentbot-ai", name: "ContentBot AI", description: "Automates content generation with workflows for various content creators, supporting over 110 languages.", link: "https://contentbot.ai/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "squibler", name: "Squibler", description: "Powerful for structured long-form content, making it perfect for authors and researchers.", link: "https://www.squibler.io/", categorySlug: "text-generation", pricing: "paid" },
-      { id: "writesonic", name: "Writesonic", description: "Budget-friendly tool for SEO and marketing professionals, offering versatile content generation.", link: "https://writesonic.com/", categorySlug: "text-generation", pricing: "freemium" },
-      { id: "notion-ai", name: "Notion AI", description: "Integrates AI text generation into Notion workspaces, enhancing productivity with features like summarization and idea brainstorming.", link: "https://www.notion.so/product/ai", categorySlug: "text-generation", pricing: "paid" }
+      { id: "chatgpt-textgen", name: "ChatGPT (OpenAI)", description: "Versatile AI assistant excelling in creative writing, coding, and image generation.", link: "https://chat.openai.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid starts at $20/month"), pricingDetails: "Free; Paid starts at $20/month" },
+      { id: "claude-textgen", name: "Claude 3.7 (Anthropic)", description: "Known for thoughtful, human-like conversations and advanced reasoning.", link: "https://www.anthropic.com/index/claude", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid starts at $18/month"), pricingDetails: "Free; Paid starts at $18/month" },
+      { id: "gemini-textgen", name: "Google Gemini 2.5 Pro", description: "Excels in creative tasks and document summarization with a free tier available.", link: "https://gemini.google.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid starts at $19.99/month"), pricingDetails: "Free; Paid starts at $19.99/month" },
+      { id: "jasper-ai-textgen", name: "Jasper AI", description: "AI writing assistant tailored for marketers, bloggers, and content creators.", link: "https://www.jasper.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: "copy-ai", name: "Copy.ai", description: "AI-powered writing generators for marketing emails, social media captions, and more.", link: "https://www.copy.ai/tools", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: "writesonic", name: "Writesonic", description: "AI writing for blogs, marketing & ads with SEO optimization.", link: "https://writesonic.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid starts at $16/month"), pricingDetails: "Free; Paid starts at $16/month" },
+      { id: "rytr", name: "Rytr", description: "Affordable AI writing tool providing excellent value for personal projects and small business tasks.", link: "https://rytr.me/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Frase"), name: "Frase", description: "AI-driven blog post creation & SEO research.", link: "https://www.frase.io/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid starts at $45/month"), pricingDetails: "Free Trial; Paid starts at $45/month" },
+      { id: generateToolId("Grammarly"), name: "Grammarly", description: "AI writing tools for effortless writing, including cover letters, business reports, and more.", link: "https://www.grammarly.com/ai/ai-writing-tools", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Semrush AI Text Generator"), name: "Semrush AI Text Generator", description: "Free tool powered by Semrush to create original content: blogs, ads, emails, and more.", link: "https://www.semrush.com/free-tools/ai-text-generator/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("MyEssayWriter.ai"), name: "MyEssayWriter.ai", description: "AI text generator tools create text using artificial intelligence and advanced language models.", link: "https://www.myessaywriter.ai/ai-text-generator", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial"), pricingDetails: "Free Trial" },
+      { id: generateToolId("AIDocMaker"), name: "AIDocMaker", description: "Generate well-structured text effortlessly using advanced AI text generator models.", link: "https://www.aidocmaker.com/ai-text-generator", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("Canva Magic Write"), name: "Canva Magic Write", description: "Generate text in your unique tone of voice using AI-powered writing tools.", link: "https://www.canva.com/magic-write/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Writeseed"), name: "Writeseed", description: "AI writing assistant to create SEO-optimized articles for your blog, website, and more.", link: "https://writeseed.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Youbooks"), name: "Youbooks", description: "AI-powered tool designed to help users generate high-quality nonfiction books using a single prompt.", link: "https://www.sfgate.com/shopping/article/youbooks-ai-subscription-20319464.php", categorySlug: "text-generation", pricing: determinePricingCategory("Paid ($49 lifetime)"), pricingDetails: "Paid ($49 lifetime)" },
+      { id: "deepseek-textgen", name: "DeepSeek", description: "Open-source AI chatbot offering transparency and customization.", link: "https://deepseek.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("RightBlogger"), name: "RightBlogger", description: "AI tool for turning YouTube videos into engaging blog posts.", link: "https://rightblogger.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: "contentbot-ai", name: "ContentBot AI", description: "Automates content generation with workflows for various content creators.", link: "https://contentbot.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Scalenut"), name: "Scalenut", description: "AI-powered content research and writing platform for marketers.", link: "https://www.scalenut.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("INK Editor"), name: "INK Editor", description: "AI writing assistant for SEO-friendly content creation.", link: "https://inkforall.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Peppertype.ai"), name: "Peppertype.ai", description: "AI-powered content creation tool for marketers and content creators.", link: "https://www.peppertype.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Outranking"), name: "Outranking", description: "AI-powered content optimization and writing platform.", link: "https://www.outranking.io/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("NeuralText"), name: "NeuralText", description: "AI-powered content creation and SEO optimization tool.", link: "https://www.neuraltext.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("AI Writer"), name: "AI Writer", description: "AI-powered text generation tool for creating articles and content.", link: "https://ai-writer.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Snazzy AI"), name: "Snazzy AI", description: "AI-powered copywriting tool for marketing content.", link: "https://snazzy.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("ShortlyAI"), name: "ShortlyAI", description: "AI writing assistant for long-form content creation.", link: "https://shortlyai.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Wordtune"), name: "Wordtune", description: "AI-powered writing assistant for rewriting and improving content.", link: "https://www.wordtune.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("QuillBot"), name: "QuillBot", description: "AI-powered paraphrasing and summarization tool.", link: "https://quillbot.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Paraphraser.io"), name: "Paraphraser.io", description: "AI-powered paraphrasing tool for rewriting content.", link: "https://www.paraphraser.io/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Spinbot"), name: "Spinbot", description: "Free automatic article spinner for rewriting content.", link: "https://spinbot.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("Paraphrase Online"), name: "Paraphrase Online", description: "Free online paraphrasing tool for rewriting text.", link: "https://www.paraphrase-online.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("Scribbr Paraphrasing Tool"), name: "Scribbr Paraphrasing Tool", description: "AI-powered paraphrasing tool for academic writing.", link: "https://www.scribbr.com/paraphrasing-tool/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("Rewriter Tools"), name: "Rewriter Tools", description: "Collection of free online tools for rewriting and paraphrasing content.", link: "https://www.rewritertools.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free"), pricingDetails: "Free" },
+      { id: generateToolId("Prepostseo Paraphrasing Tool"), name: "Prepostseo Paraphrasing Tool", description: "AI-powered paraphrasing tool for rewriting content.", link: "https://www.prepostseo.com/paraphrasing-tool", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Spin Rewriter"), name: "Spin Rewriter", description: "AI-powered article spinning tool for rewriting content.", link: "https://www.spinrewriter.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Chimp Rewriter"), name: "Chimp Rewriter", description: "AI-powered content rewriting tool for SEO and marketing.", link: "https://chimprewriter.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("SEO Content Machine"), name: "SEO Content Machine", description: "AI-powered content generation tool for SEO purposes.", link: "https://seocontentmachine.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Article Forge"), name: "Article Forge", description: "AI-powered content generation tool for creating articles.", link: "https://www.articleforge.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Kafkai"), name: "Kafkai", description: "AI-powered content generation tool for marketers and SEO professionals.", link: "https://kafkai.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Text Blaze"), name: "Text Blaze", description: "AI-powered text expansion tool for productivity.", link: "https://blaze.today/", categorySlug: "text-generation", pricing: determinePricingCategory("Free; Paid plans available"), pricingDetails: "Free; Paid plans available" },
+      { id: generateToolId("Phrasee"), name: "Phrasee", description: "AI-powered marketing copy generation tool.", link: "https://phrasee.co/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Persado"), name: "Persado", description: "AI-powered platform for generating marketing language.", link: "https://www.persado.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Conversion.ai"), name: "Conversion.ai", description: "AI-powered content generation tool for marketers.", link: "https://www.conversion.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Anyword"), name: "Anyword", description: "AI-powered copywriting tool for marketers and advertisers.", link: "https://anyword.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Smartwriter.ai"), name: "Smartwriter.ai", description: "AI-powered outreach and email personalization tool.", link: "https://www.smartwriter.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("ClosersCopy"), name: "ClosersCopy", description: "AI-powered copywriting tool for sales and marketing.", link: "https://www.closerscopy.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Texta.ai"), name: "Texta.ai", description: "AI-powered content generation tool for marketers and bloggers.", link: "https://texta.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Copysmith"), name: "Copysmith", description: "AI-powered content generation tool for marketers and e-commerce.", link: "https://copysmith.ai/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("GrowthBar"), name: "GrowthBar", description: "AI-powered SEO and content writing tool for marketers.", link: "https://www.growthbarseo.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("MarketMuse"), name: "MarketMuse", description: "AI-powered content research and optimization platform.", link: "https://www.marketmuse.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Sudowrite-textgen"), name: "Sudowrite", description: "AI writing assistant designed for creative writing and storytelling.", link: "https://www.sudowrite.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Free Trial; Paid plans available"), pricingDetails: "Free Trial; Paid plans available" },
+      { id: generateToolId("Novelcrafter"), name: "Novelcrafter", description: "AI tool for fiction and nonfiction book writing assistance.", link: "https://www.novelcrafter.com/", categorySlug: "text-generation", pricing: determinePricingCategory("Paid plans available"), pricingDetails: "Paid plans available" },
     ]
   },
   {
