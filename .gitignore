@@ -1,45 +1,30 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules
+node_modules/
+.next/
+out/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Firebase
+.firebase/
+.firebaserc
+functions/node_modules/
 
-# testing
-/coverage
+# Environment variables
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Build artifacts
+package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# vercel
-.vercel
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+.DS_Store
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-.genkit/*
-.env*
-
-# firebase
-firebase-debug.log
-firestore-debug.log
+# Docs & caches
+docs/.vitepress/cache
