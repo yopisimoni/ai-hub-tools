@@ -47,3 +47,8 @@ Prototype / portfolio project. The current version demonstrates the product dire
 ---
 
 Built by [Simohamed Amara](https://github.com/yopisimoni).
+
+---
+
+**Portfolio:** https://yopisimoni.github.io  
+**GitHub:** https://github.com/yopisimoni
