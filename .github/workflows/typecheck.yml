@@ -19,11 +19,11 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
       - name: Type-check
-        run: npm run typecheck
+        run: npx tsc --noEmit -p tsconfig.automation.json
