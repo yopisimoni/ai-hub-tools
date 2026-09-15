@@ -98,7 +98,7 @@ Do not expose database service credentials in browser-side variables or committe
 
 **Public portfolio / engineering proof project.**
 
-The AI Ops Router code is implemented in the repository. Hosting for the server-side automation route still needs to be configured before the interactive demo is publicly deployed.
+A live browser demo is published at https://yopisimoni.github.io/ai-ops-router/. The full server-side AI/Supabase/n8n implementation remains in this repository.
 
 ---
 
