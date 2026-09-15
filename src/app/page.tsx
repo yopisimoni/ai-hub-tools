@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/common/logo";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Workflow } from "lucide-react";
 import { LandingPageFooter } from "@/components/common/landing-page-footer";
 
 export default function HomePage() {
@@ -23,19 +23,24 @@ export default function HomePage() {
           Join our community for free, create your personalized space, and let&apos;s explore the future of AI together!
         </p>
         
-        <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center">
           <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
-            <Link href="/sign-up">
-              Join for Free
+            <Link href="/automation-lab">
+              <Workflow className="mr-2 h-5 w-5" />
+              Try AI Ops Router
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
           <Button asChild variant="secondary" size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
-            <Link href="/sign-in">
-              Let&apos;s Get Started
+            <Link href="/sign-up">
+              Explore AI Tools Hub
             </Link>
           </Button>
         </div>
+        <p className="mt-5 max-w-2xl text-sm text-muted-foreground">
+          The AI Ops Router is a public engineering demo: structured AI triage, optional Supabase persistence,
+          and an n8n automation handoff.
+        </p>
       </main>
       <LandingPageFooter />
     </>
