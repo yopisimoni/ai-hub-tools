@@ -1,35 +1,71 @@
-# AI Tools Hub
+# AI Tools Hub + AI Ops Router
 
-A community-oriented AI tools discovery prototype built with Next.js and Firebase-oriented infrastructure.
+A public Next.js / TypeScript project that combines an AI tools discovery prototype with a practical automation proof project.
 
-The product concept is simple: help people discover AI tools, compare options, share feedback, and build a more useful directory around real user experience.
+## Featured engineering proof: AI Ops Router
 
-## Core idea
+The **AI Ops Router** turns an unstructured business request into a structured operational action.
 
-AI Tools Hub is designed around four actions:
+Flow:
 
-- Discover useful AI tools
-- Rank and compare tools
-- Share comments and practical feedback
-- Create an account and participate in the community
+1. User submits a free-text request.
+2. Server validates the payload with Zod.
+3. Gemini is used when an AI provider key is configured.
+4. A deterministic rules fallback keeps the demo functional without secrets.
+5. The result contains category, priority, summary, destination, and recommended action.
+6. The server can optionally persist the result to Supabase through REST.
+7. The server can optionally trigger an n8n webhook for downstream automation.
 
-## Stack
+Route:
 
-- Next.js
-- React
+`/automation-lab`
+
+### What this demonstrates
+
+- Next.js App Router
 - TypeScript
-- Firebase configuration and functions
-- Tailwind-based UI components
+- React client state
+- Server-side API routes
+- Zod validation
+- Genkit + Google AI integration
+- Safe fallback behavior
+- Supabase REST persistence pattern
+- n8n webhook handoff
+- Separation of client and server credentials
+- Responsive product UI
+- Automation-oriented product thinking
+
+### Key files
+
+- `src/app/automation-lab/page.tsx` — interactive product UI
+- `src/app/api/triage/route.ts` — validation, AI triage, persistence, workflow handoff
+- `docs/automation-lab/supabase.sql` — Supabase table and RLS setup
+- `docs/automation-lab/n8n-workflow.json` — importable n8n workflow example
+
+## AI Tools Hub
+
+The original product concept is a community-oriented AI tools discovery experience for finding, comparing, ranking, and discussing useful AI products.
+
+Core product ideas:
+
+- Discover AI tools
+- Compare categories and options
+- Save favorites
+- Share comments and feedback
+- Create a personalized account experience
+
+## Main stack
+
+- Next.js 15
+- React 18
+- TypeScript
+- Tailwind CSS
+- Genkit
+- Google AI
+- Firebase-oriented infrastructure
+- Zod
+- React Query
 - Lucide icons
-
-## Repository structure
-
-- `src/app/` — application routes and pages
-- `components/` / UI components — reusable interface elements
-- `functions/` — Firebase-related backend functions
-- `docs/` — project documentation
-- `firebase.json` — Firebase configuration
-- `package.json` — scripts and dependencies
 
 ## Development
 
@@ -38,17 +74,33 @@ npm install
 npm run dev
 ```
 
-Then open the local Next.js development URL shown in the terminal.
+Then open the local development URL shown in the terminal.
+
+Run type checking with:
+
+```bash
+npm run typecheck
+```
+
+## Automation integration setup
+
+The AI Ops Router works in deterministic demo mode with no external secrets.
+
+For a fully connected environment, configure server-side credentials for:
+
+- Gemini / Google AI
+- Supabase
+- n8n webhook delivery
+
+Do not expose database service credentials in browser-side variables or committed files.
 
 ## Status
 
-Prototype / portfolio project. The current version demonstrates the product direction and frontend architecture; it should not be treated as a finished production directory.
+**Public portfolio / engineering proof project.**
+
+The AI Ops Router code is implemented in the repository. Hosting for the server-side automation route still needs to be configured before the interactive demo is publicly deployed.
 
 ---
 
-Built by [Simohamed Amara](https://github.com/yopisimoni).
-
----
-
-**Portfolio:** https://yopisimoni.github.io  
-**GitHub:** https://github.com/yopisimoni
+Built by [Simohamed Amara](https://yopisimoni.github.io)  
+[Professional portfolio](https://yopisimoni.github.io) · [GitHub profile](https://github.com/yopisimoni)
